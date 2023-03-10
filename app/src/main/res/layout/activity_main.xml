@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,8 +12,10 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
+        
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_layout"
             android:layout_width="match_parent"
@@ -46,12 +49,14 @@
             android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_margin="20dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="7dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -68,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
                         android:layout_marginTop="10dp"
-                        android:text="Sharing Without Sharing"
+                        android:text="@string/slogan"
                         android:fontFamily="@font/itim"/>
 
 
@@ -83,7 +88,46 @@
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
+            
+            <RelativeLayout
+                android:id="@+id/greetings_relative_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/app_bar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="20dp">
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/greetings"
+                    android:fontFamily="@font/itim"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/circular_button"
+                    android:layout_width="35dp"
+                    android:layout_height="46dp"
+                    app:cornerRadius="28dp"
+                    app:icon="@drawable/logut_symbol"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="18dp"
+                    app:iconTint="@color/red_500"
+                    app:strokeWidth="0dp"
+                    app:backgroundTint="@color/red_300"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    app:rippleColor="@color/red_100"/>
+
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
