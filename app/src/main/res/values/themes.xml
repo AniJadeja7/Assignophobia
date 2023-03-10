@@ -1,0 +1,26 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Assignophobia" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/orange_500</item>
+<!--        <item name="colorPrimaryVariant">@color/colorPrimaryVariantx</item>-->
+        <item name="colorOnPrimary">@color/orange_700</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/red_300</item>
+<!--        <item name="colorSecondaryVariant">@color/colorSecondaryVariantx</item>-->
+        <item name="colorOnSecondary">@color/red_500</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white_900</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColorPrimary">@color/orange_700</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+
+
+    <style name="collapsedToolbarTextAppearance">
+        <item name="android:textColor">@color/orange_700</item>
+        <item name="android:fontFamily">@font/atomic_age</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
