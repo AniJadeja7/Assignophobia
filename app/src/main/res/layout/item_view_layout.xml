@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp"
     android:elevation="5dp"
@@ -36,15 +37,15 @@
 
         <TextView
             android:id="@+id/card_assignment_text_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/card_profile_view"
-            app:layout_constraintTop_toBottomOf="@id/card_profile_view"
-            app:layout_constraintEnd_toEndOf="@id/vertical50"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="177dp"
+            android:layout_height="95dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="15dp"
-            android:layout_marginEnd="5dp"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/vertical50"
+            app:layout_constraintStart_toStartOf="@id/card_profile_view"
+            app:layout_constraintTop_toBottomOf="@id/card_profile_view" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/card_assignment_image_view"

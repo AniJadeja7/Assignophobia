@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +14,7 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
-        
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_layout"
             android:layout_width="match_parent"
@@ -27,126 +26,218 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="180dp"
+                android:layout_marginBottom="60dp"
                 android:fontFamily="@font/atomic_age"
                 android:text="@string/app_name"
                 android:textColor="@color/orange_500"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/subjects_layout"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/itim"
+                android:text="@string/greetings"
+                android:textColor="@color/black_900"
+                android:textSize="16sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/circular_button"
+                android:layout_width="35dp"
+                android:layout_height="46dp"
+                android:layout_below="@id/subjects_layout"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end|bottom"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="@color/red_300"
+                app:cornerRadius="28dp"
+                app:icon="@drawable/logut_symbol"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="18dp"
+                app:iconTint="@color/red_500"
+                app:rippleColor="@color/red_100"
+                app:strokeWidth="0dp" />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:overScrollMode="never"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/app_bar"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="7dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/slogan"
-                        android:fontFamily="@font/itim"/>
-
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/profile_button"
-                        android:layout_width="30dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentEnd="true"
-                        app:cornerRadius="20dp"
-                        android:layout_marginEnd="25dp"/>
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-            
-            <RelativeLayout
-                android:id="@+id/greetings_relative_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/app_bar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="20dp">
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/greetings"
-                    android:fontFamily="@font/itim"
-                    android:textSize="16sp"
-                    android:layout_marginStart="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"
-                    />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/circular_button"
-                    android:layout_width="35dp"
-                    android:layout_height="46dp"
-                    app:cornerRadius="28dp"
-                    app:icon="@drawable/logut_symbol"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    app:iconSize="18dp"
-                    app:iconTint="@color/red_500"
-                    app:strokeWidth="0dp"
-                    app:backgroundTint="@color/red_300"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="20dp"
-                    app:rippleColor="@color/red_100"/>
-
-
-            </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/posts_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/greetings_relative_layout"
+                android:layout_height="0dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="70dp"
-                android:overScrollMode="never">
+                android:layout_weight="1"
+                android:overScrollMode="never"
+                android:paddingTop="30dp"
+                android:paddingBottom="60dp">
 
 
             </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="7dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/itim"
+                    android:text="@string/slogan" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/profile_button"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="25dp"
+                    app:cornerRadius="20dp" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/subjects_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/app_bar"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:background="@drawable/backdrop_top">
+
+            <TextView
+                android:id="@+id/subject_1_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:background="@drawable/rounded_rect"
+                android:fontFamily="@font/itim"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:text="@string/subject_1"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@id/subject_2_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/subject_2_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:background="@drawable/rounded_rect"
+                android:fontFamily="@font/itim"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:text="@string/subject_2"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@id/subject_3_view"
+                app:layout_constraintStart_toEndOf="@id/subject_1_view"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/subject_3_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:background="@drawable/rounded_rect"
+                android:fontFamily="@font/itim"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:text="@string/subject_3"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@id/subject_4_view"
+                app:layout_constraintStart_toEndOf="@id/subject_2_view"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/subject_4_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:background="@drawable/rounded_rect"
+                android:fontFamily="@font/itim"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:text="@string/subject_4"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/subject_3_view"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
-
-    </androidx.core.widget.NestedScrollView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/backdrop"
+        android:layout_gravity="bottom"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

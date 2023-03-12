@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Assignophobia</string>
     <string name="slogan">Sharing Without Sharing</string>
-    <string name="greetings">Hello,</string>
+    <string name="greetings">Hello, Ms. Nagia</string>
+    <string name="subject_1">System</string>
+    <string name="subject_2">Android</string>
+    <string name="subject_3">WebDev</string>
+    <string name="subject_4">Database</string>
 </resources>
