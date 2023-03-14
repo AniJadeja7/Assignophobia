@@ -14,4 +14,12 @@
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account">Already Have an account ?</string>
+    <string name="profile">Profile</string>
+    <string name="whispered">Whispered</string>
+    <string name="memed">Memed</string>
+    <string name="save">Save</string>
+    <string name="student_email">Student Email</string>
+    <string name="student_name">Student Name</string>
+    <string name="college">College</string>
+    <string name="student_number">student Number</string>
 </resources>
