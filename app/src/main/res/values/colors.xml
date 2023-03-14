@@ -7,9 +7,11 @@
     <color name="black_900">#0D0D0D</color>
     <color name="orange_500">#D59638</color>
     <color name="orange_200">#FAE1BB</color>
+    <color name="orange_ripple">#B3FAE1BB</color>
     <color name="orange_700">#A66C15</color>
     <color name="red_300">#FFCCCC</color>
     <color name="red_500">#C66969</color>
     <color name="red_100">#B9F39D9D</color>
+    <color name="image_filter">#80BBFAE7</color>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.conestogac.mobileapplicationdevelopment.assignophobia;
+package com.conestogac.mobileapplicationdevelopment.assignophobia.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.conestogac.mobileapplicationdevelopment.assignophobia.R;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts.Item;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts.PostAdapter;
 import com.google.android.material.appbar.AppBarLayout;
