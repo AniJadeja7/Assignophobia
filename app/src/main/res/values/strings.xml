@@ -6,4 +6,10 @@
     <string name="subject_2">Android</string>
     <string name="subject_3">WebDev</string>
     <string name="subject_4">Database</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="dont_t_have_an_account">Dont\'t have an account ?</string>
+    <string name="login">Login</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
 </resources>
