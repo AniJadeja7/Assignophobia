@@ -25,4 +25,9 @@
     <string name="invite">Invite</string>
     <string name="invite_placeholder">Invite to the app... Inviting to the app gives you the chance to share the app and help others as well.</string>
     <string name="copy">copy</string>
+    <string name="whisper">Whisper</string>
+    <string name="image_name">Image Name</string>
+    <string name="assignment_view_placeholder">Write Your Assignment Here..</string>
+    <string name="post">post</string>
+    <string name="enter_date">Enter Date</string>
 </resources>
