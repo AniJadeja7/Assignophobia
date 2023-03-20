@@ -249,6 +249,7 @@
         android:layout_margin="30dp"
         android:foreground="@drawable/addition"
         android:foregroundTint="@color/orange_700"
-        app:rippleColor="@color/orange_ripple"/>
+        app:rippleColor="@color/orange_ripple"
+        app:borderWidth="0dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

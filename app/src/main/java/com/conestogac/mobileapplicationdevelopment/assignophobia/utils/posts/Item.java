@@ -2,7 +2,7 @@ package com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts;
 
 public class Item {
 
-    int profile, assignmentImage;
+    private int profile, assignmentImage;
     String userName, assignmentText;
 
     public Item(int profile, int assignmentImage, String userName, String assignmentText) {

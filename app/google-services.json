@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "845616360971",
+    "project_id": "assignophobia",
+    "storage_bucket": "assignophobia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845616360971:android:ef46aa6f0bfff53485e10e",
+        "android_client_info": {
+          "package_name": "com.conestogac.mobileapplicationdevelopment.assignophobia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845616360971-masvg49klcun8udqq3iu6m7mv22nk9or.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.conestogac.mobileapplicationdevelopment.assignophobia",
+            "certificate_hash": "0f2bc8ed19afa4e3739a85448a6b6009c75936af"
+          }
+        },
+        {
+          "client_id": "845616360971-0g81jpuq8bib68b95e2g4pqhrjl3792j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6ulRdkeZHii7fiTs66izRMIiJqxshXSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845616360971-0g81jpuq8bib68b95e2g4pqhrjl3792j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
