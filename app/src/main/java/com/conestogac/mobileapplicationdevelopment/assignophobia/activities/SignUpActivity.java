@@ -58,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         confirmPasswordEditText = findViewById(R.id.confirm_password_edit_text);
         inviteCodeEdiText = findViewById(R.id.invite_code_edit_text);
 
+        findViewById(R.id.login_text_view).setOnClickListener(this);
     }
 
     @Override
@@ -80,9 +81,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             else {
                 confirmPasswordEditText.setError("Passwords do not match..");
             }
-
-
-
+        } else if (id == R.id.login_text_view) {
+            startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
         }
     }
 

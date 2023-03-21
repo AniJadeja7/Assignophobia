@@ -48,6 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
         nestedScrollView.post(() -> nestedScrollView.scrollTo(0, 0));
 
+        findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                // setting flags will remove all the activities from the backstack
+                startActivity(new Intent(MainActivity.this,LoginActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                finish();
+            }
+        });
+
     }
 
 

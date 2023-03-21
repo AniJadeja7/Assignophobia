@@ -51,7 +51,7 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circular_button"
+                android:id="@+id/logout_button"
                 android:layout_width="35dp"
                 android:layout_height="46dp"
                 android:layout_below="@id/subjects_layout"
