@@ -39,13 +39,27 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile_view"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:layout_margin="20dp"
-        android:src="@color/black_900"
+        android:src="@color/orange_200"
+        android:foregroundTint="@color/black_200"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/back_button"
-        app:riv_corner_radius="17dp" />
+        app:riv_corner_radius="17dp"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/profile_view_foreground"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/profile_placeholder"
+        android:foregroundTint="@color/black_200"
+        app:layout_constraintStart_toStartOf="@id/profile_view"
+        app:layout_constraintBottom_toBottomOf="@id/profile_view"
+        app:layout_constraintTop_toTopOf="@id/profile_view"
+        app:layout_constraintEnd_toEndOf="@id/profile_view"
+        app:riv_corner_radius="17dp"/>
 
 
     <TextView
