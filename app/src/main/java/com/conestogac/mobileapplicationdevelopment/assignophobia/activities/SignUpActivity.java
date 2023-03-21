@@ -108,17 +108,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private int getAllvalues(){
-        return 0;
-    }
+    /*
+    * List all contents of the userDirectory
+    *
+    * StorageReference folderRef = storageRef.child("myFolder/");
 
-    private int verifyAllValues(){
-        return 0;
-    }
-
-    private int signUpUser(){
-        return 0;
-    }
+    folderRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+    @Override
+    public void onSuccess(ListResult listResult) {
+        // The folder exists and contains at least one item
+        }
+    }).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception e) {
+        // The folder does not exist or an error occurred
+        }
+    });
+    *
+    *
+    *
+    * */
 
     private void navigateToLoginActivity(){
         startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
