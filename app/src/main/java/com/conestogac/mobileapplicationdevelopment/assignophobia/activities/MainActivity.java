@@ -23,14 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     List<Item> items = new ArrayList<>();
     NestedScrollView nestedScrollView;
-
-    private FloatingActionButton whisperButton;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -60,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         user.setUserEmail(currentUser.getEmail());
         user.setUserPhotoUri(currentUser.getPhotoUrl());
 
-        if (user.getUserDisplayName() == null)
+        Log.d(TAG, "checkUserStatus: display name "+ user.getUserDisplayName());
+
+        if (user.getUserDisplayName() == null || Objects.equals(user.getUserDisplayName(), ""))
         {
             Log.d(TAG, "checkUserStatus: display name is not set");
             startActivity(new Intent(MainActivity.this,ProfileActivity.class));
@@ -94,29 +95,21 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                // setting flags will remove all the activities from the backstack
-                startActivity(new Intent(MainActivity.this,LoginActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                finish();
-            }
+        findViewById(R.id.logout_button).setOnClickListener(view -> {
+            mAuth.signOut();
+            // setting flags will remove all the activities from the backstack
+            startActivity(new Intent(MainActivity.this,LoginActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            finish();
         });
 
 
         recyclerView = findViewById(R.id.posts_recycler_view);
         nestedScrollView = findViewById(R.id.nested_scroll_view);
-        whisperButton = findViewById(R.id.whisper_button);
+        FloatingActionButton whisperButton = findViewById(R.id.whisper_button);
 
-        whisperButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,ProfileActivity.class
-                ));
-            }
-        });
+        whisperButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,ProfileActivity.class
+        )));
 
     }
 }

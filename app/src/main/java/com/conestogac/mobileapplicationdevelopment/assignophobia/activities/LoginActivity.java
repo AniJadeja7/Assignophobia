@@ -47,12 +47,11 @@ private TextInputEditText passwordEditText;
         if (mAuth.getCurrentUser() != null)
         {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
         }
-        findViewById(R.id.sign_up_text_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
-            }
+        findViewById(R.id.sign_up_text_view).setOnClickListener(view -> {
+            startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+            finish();
         });
     }
 
@@ -84,14 +83,12 @@ private TextInputEditText passwordEditText;
 
     private void login(String[] credentials) {
 
-        mAuth.signInWithEmailAndPassword(credentials[0],credentials[1]).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful())
-                    {
-                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                    }
-            }
+        mAuth.signInWithEmailAndPassword(credentials[0],credentials[1]).addOnCompleteListener(task -> {
+                if(task.isSuccessful())
+                {
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    finish();
+                }
         });
 
     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".activities.ProfileActivity">
 
     <com.google.android.material.button.MaterialButton
@@ -142,6 +143,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/student_number_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -162,6 +164,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/college_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -182,6 +185,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/student_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -202,6 +206,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/student_email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
