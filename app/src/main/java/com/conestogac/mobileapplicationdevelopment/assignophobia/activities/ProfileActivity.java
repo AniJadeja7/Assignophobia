@@ -40,10 +40,8 @@ import java.util.Objects;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ProfileActivity";
-    private FirebaseDatabase database;
     private StorageReference userDirectory;
     private String userProfileImageRef;
-    private DatabaseReference databaseReference;
     private DatabaseReference userReference;
 
     private UserModel user;
@@ -85,10 +83,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         StorageReference storageReference = storage.getReference();
         userDirectory = storageReference.child("users/" + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference();
+        userReference = databaseReference.child("users/"+currentUser.getUid());
+
         displayNameEditText = findViewById(R.id.student_name_edit_text);
         emailEditText = findViewById(R.id.student_email_edit_text);
         studentNumberEditText = findViewById(R.id.student_number_edit_text);
-        emailEditText = findViewById(R.id.student_email_edit_text);
+        collegeEditText = findViewById(R.id.college_edit_text);
 
         profileView = findViewById(R.id.profile_view);
         emailView = findViewById(R.id.email_view);
@@ -108,52 +110,61 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             saveDataOnFirebase();
         }
     }
-
     private void saveDataOnFirebase() {
-
-
-
-        user.setUserDisplayName(getData("displayName"));
         user.setUserEmail(getData("email"));
-
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(user.getUserDisplayName())
-                .setPhotoUri(user.getUserPhotoUri())
-                .build();
-
-        currentUser.updateProfile(profileUpdates).addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => currentUser.updateProfile => onFailure: "+e.getMessage())).addOnSuccessListener(unused -> {
-            Log.d(TAG, "saveDataOnFirebase => currentUser.updateProfile => onSuccess: Profile Updated");
-            createErrorSnackBar("Profile Update Success",false);
-        });
-
-
         UploadTask photoUpload = userDirectory.child("ProfilePicture." + userProfileImageRef).putFile(user.getUserPhotoUri());
+        if (!user.getUserEmail().equals(currentUser.getEmail()))
+        {
+            photoUpload.addOnSuccessListener(taskSnapshot ->{
 
-        photoUpload.addOnSuccessListener(taskSnapshot ->{
-
-            Log.d(TAG, "saveDataOnFirebase=>onSuccess: photoUploaded");
-            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
-                user.setUserPhotoUri(uri);
-                currentUser.updateProfile(new UserProfileChangeRequest.Builder().setPhotoUri(uri).build()).addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onFailure: "+e.getMessage()));
+                Log.d(TAG, "saveDataOnFirebase=>onSuccess: photoUploaded");
+                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                    user.setUserPhotoUri(uri);
+                    currentUser.updateProfile(new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(uri)
+                            .setDisplayName(getData("displayName"))
+                            .build()).addOnSuccessListener(unused -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onSuccess: photo uri set "+uri)).addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onFailure: "+e.getMessage()));
+                });
+            }).addOnFailureListener(e -> {
+                Log.d(TAG, "saveDataOnFirebase=>onFailure: photoUploadFailed");
+                Log.d(TAG, "saveDataOnFirebase=>onFailure: " + e.getMessage());
             });
-        }).addOnFailureListener(e -> {
-            Log.d(TAG, "saveDataOnFirebase=>onFailure: photoUploadFailed");
-            Log.d(TAG, "saveDataOnFirebase=>onFailure: " + e.getMessage());
-        });
 
+        }
+        updateDataOnDatabase();
+    }
+
+    private void updateDataOnDatabase(){
+        userReference.child("Student Number").setValue(getData("studentNumber"));
+        userReference.child("College").setValue(getData("College"));
     }
 
     private void retrieveDataFromFirebase(){
+
+
+
         Log.d(TAG, "retrieveDataFromFirebase: Display Name : "+currentUser.getDisplayName());
         nameView.setText(currentUser.getDisplayName());
         Log.d(TAG, "retrieveDataFromFirebase: Email : "+currentUser.getEmail());
         emailView.setText(currentUser.getEmail());
-        Log.d(TAG, "retrieveDataFromFirebase: Image URI : "+currentUser.getPhotoUrl());
-        profileView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        profileViewForeground.setVisibility(View.GONE);
-        Glide.with(this)
-                .load(Objects.requireNonNull(currentUser.getPhotoUrl()).toString())
-                .into(profileView);
+
+
+        try {
+            Uri photoUri = currentUser.getPhotoUrl();
+            Log.d(TAG, "retrieveDataFromFirebase: Image URI : "+photoUri);
+            user.setUserPhotoUri(photoUri);
+            profileView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            profileViewForeground.setVisibility(View.GONE);
+            Glide.with(this)
+                    .load(Objects.requireNonNull(photoUri).toString())
+                    .into(profileView);
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "retrieveDataFromFirebase: "+e.getMessage());
+        }
+
+
 
 
     }
@@ -229,7 +240,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }catch (Exception e)
                 {
                     // This does not cover all the spaces input and numeric input
-                    createErrorSnackBar("Student Number must be at least 4 characters..",true);
+                    createErrorSnackBar("College name must be at least 4 characters..",true);
                 }
                 break;
             case "email":
@@ -245,8 +256,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
-
-
         return returnData;
     }
 
