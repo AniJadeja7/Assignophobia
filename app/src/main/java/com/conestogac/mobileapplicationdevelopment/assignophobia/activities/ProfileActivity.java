@@ -29,8 +29,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -54,6 +57,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView profileViewForeground;
     private TextView nameView;
     private TextView emailView;
+    private TextView whisperedNumberView;
+    private TextView memedNumberView;
 
     private FirebaseUser currentUser;
 
@@ -96,6 +101,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         emailView = findViewById(R.id.email_view);
         nameView = findViewById(R.id.name_view);
         profileViewForeground = findViewById(R.id.profile_view_foreground);
+
+        whisperedNumberView = findViewById(R.id.whispered_number);
+        memedNumberView = findViewById(R.id.memed_number);
     }
 
     @Override
@@ -112,9 +120,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
     private void saveDataOnFirebase() {
         user.setUserEmail(getData("email"));
-        UploadTask photoUpload = userDirectory.child("ProfilePicture." + userProfileImageRef).putFile(user.getUserPhotoUri());
-        if (!user.getUserEmail().equals(currentUser.getEmail()))
+
+        if (!user.getUserPhotoUri().equals(currentUser.getPhotoUrl()) || !user.getUserPhotoUri().toString().equals("null"))
         {
+            UploadTask photoUpload = userDirectory.child("ProfilePicture." + userProfileImageRef).putFile(user.getUserPhotoUri());
             photoUpload.addOnSuccessListener(taskSnapshot ->{
 
                 Log.d(TAG, "saveDataOnFirebase=>onSuccess: photoUploaded");
@@ -122,15 +131,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     user.setUserPhotoUri(uri);
                     currentUser.updateProfile(new UserProfileChangeRequest.Builder()
                             .setPhotoUri(uri)
-                            .setDisplayName(getData("displayName"))
-                            .build()).addOnSuccessListener(unused -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onSuccess: photo uri set "+uri)).addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onFailure: "+e.getMessage()));
+                            .build()).addOnSuccessListener(unused ->
+                            Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onSuccess: photo uri set "+uri))
+                            .addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onFailure: "+e.getMessage()));
                 });
             }).addOnFailureListener(e -> {
                 Log.d(TAG, "saveDataOnFirebase=>onFailure: photoUploadFailed");
                 Log.d(TAG, "saveDataOnFirebase=>onFailure: " + e.getMessage());
             });
-
         }
+        else {
+            createErrorSnackBar("Profile Picture is missing...",true);
+            return;
+        }
+        currentUser.updateProfile(new UserProfileChangeRequest.Builder()
+                        .setDisplayName(getData("displayName"))
+                        .build()).addOnSuccessListener(unused ->
+                        Log.d(TAG, "saveDataOnFirebase => onSuccess: Name Updated "))
+                .addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onFailure: "+e.getMessage()));
+
         updateDataOnDatabase();
     }
 
@@ -142,11 +161,39 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void retrieveDataFromFirebase(){
 
 
+        userReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                studentNumberEditText.setText(Objects.requireNonNull(snapshot.child("Student Number").getValue()).toString());
+                collegeEditText.setText(Objects.requireNonNull(snapshot.child("College").getValue()).toString());
+                displayNameEditText.setText(currentUser.getDisplayName());
+                emailEditText.setText(currentUser.getEmail());
+
+                try {
+                    whisperedNumberView.setText(Objects.requireNonNull(snapshot.child("WhisperedNumber").getValue()).toString());
+                    memedNumberView.setText(Objects.requireNonNull(snapshot.child("MemedNumber").getValue()).toString());
+                }
+                catch (NullPointerException ne)
+                {
+                    userReference.child("WhisperedNumber").setValue("0");
+                    userReference.child("MemedNumber").setValue("0");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         Log.d(TAG, "retrieveDataFromFirebase: Display Name : "+currentUser.getDisplayName());
         nameView.setText(currentUser.getDisplayName());
         Log.d(TAG, "retrieveDataFromFirebase: Email : "+currentUser.getEmail());
         emailView.setText(currentUser.getEmail());
+
+
 
 
         try {
@@ -161,7 +208,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         catch (Exception e)
         {
-            Log.d(TAG, "retrieveDataFromFirebase: "+e.getMessage());
+            // what happens if the uri is not received from firebase.
+            user.setUserPhotoUri(Uri.parse("null"));
+            Log.d(TAG, "retrieveDataFromFirebase: Could not get URI from firebase "+e.getMessage());
         }
 
 
@@ -175,7 +224,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             Log.d(TAG, "onActivityResult: called..");
 
-            if (uri != null) {
+            if (uri != null ) {
                 Log.d(TAG, "onActivityResult: uri is no null " + uri);
                 // Do something with the URI, such as load it into an ImageView
                 ContentResolver cR = getContentResolver();
