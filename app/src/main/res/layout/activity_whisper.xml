@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.WhisperActivity">
 
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/back_button"
         android:layout_width="35dp"
@@ -37,25 +38,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/back_button" />
 
-
-    <com.google.android.material.button.MaterialButton
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/upload_button"
-        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="95dp"
         android:layout_height="106dp"
-        android:layout_marginTop="40dp"
-        app:backgroundTint="@color/white_800"
-        app:cornerRadius="8dp"
-        app:elevation="8dp"
-        app:icon="@drawable/upload"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconSize="38dp"
-        app:iconTint="@color/orange_500"
+        app:riv_corner_radius="8dp"
         app:layout_constraintStart_toStartOf="@id/back_button"
         app:layout_constraintTop_toBottomOf="@id/back_button"
-        app:rippleColor="@color/black_200"
-        app:strokeWidth="2dp" />
+        android:layout_marginTop = "40dp"
+        android:src="@drawable/uploadbutton"
+        app:riv_border_width="2dp"
+        app:riv_border_color="@color/black_150"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"/>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/image_name_view"
@@ -75,6 +72,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/image_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -97,6 +95,7 @@
         app:layout_constraintTop_toBottomOf="@id/upload_button">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/assignment_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top"

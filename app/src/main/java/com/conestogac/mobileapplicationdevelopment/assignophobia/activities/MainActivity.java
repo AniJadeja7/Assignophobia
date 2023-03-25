@@ -1,5 +1,6 @@
 package com.conestogac.mobileapplicationdevelopment.assignophobia.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,9 +18,15 @@ import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts.Ite
 import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts.PostAdapter;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.user.UserModel;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +34,13 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    List<Item> items = new ArrayList<>();
-    NestedScrollView nestedScrollView;
+    private RecyclerView recyclerView;
+    private final List<Item> items = new ArrayList<>();
+    private NestedScrollView nestedScrollView;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference publicPosts;
 
     private static final String TAG = "MainActivity";
 
@@ -88,6 +96,29 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }
 
+        publicPosts.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "onDataChange: "+snapshot.getChildrenCount());
+
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    // Get the data for each post
+                    String postId = postSnapshot.getKey();
+                    String name = postSnapshot.child("displayName").getValue(String.class);
+                    String userPhotoUrl = postSnapshot.child("userPhotoUrl").getValue(String.class);
+                    String assignmentImageUrl = postSnapshot.child("assignmentImage").getValue(String.class);
+                    String assignmentText = postSnapshot.child("assignmentText").getValue(String.class);
+
+                    // Add data to the items
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void init(){
@@ -108,8 +139,16 @@ public class MainActivity extends AppCompatActivity {
         nestedScrollView = findViewById(R.id.nested_scroll_view);
         FloatingActionButton whisperButton = findViewById(R.id.whisper_button);
 
-        whisperButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,ProfileActivity.class
-        )));
+        whisperButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,WhisperActivity.class)));
+
+        MaterialButton profileButton = findViewById(R.id.profile_button);
+        profileButton.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+        });
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference();
+        publicPosts = databaseReference.child("PublicPosts");
 
     }
 }
