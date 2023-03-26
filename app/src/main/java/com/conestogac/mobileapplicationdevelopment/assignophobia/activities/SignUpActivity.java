@@ -24,8 +24,6 @@ import java.util.Objects;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private MaterialButton signUp;
-    private String username;
-    private String password;
     private String inviteCode;
 
     private TextInputEditText usernameEdiText;
@@ -68,14 +66,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (id==R.id.sign_up_button)
         {
 
-            username = Objects.requireNonNull(usernameEdiText.getText()).toString();
-            password = Objects.requireNonNull(passwordEditText.getText()).toString();
+            String username = Objects.requireNonNull(usernameEdiText.getText()).toString();
+            String password;
             inviteCode = Objects.requireNonNull(inviteCodeEdiText.getText()).toString();
 
-            if (passwordEditText.getText().toString().equals(Objects.requireNonNull(confirmPasswordEditText.getText()).toString()))
+            if (Objects.requireNonNull(passwordEditText.getText()).toString().equals(Objects.requireNonNull(confirmPasswordEditText.getText()).toString()))
             {
                 password = passwordEditText.getText().toString();
-                createUser(username,password);
+                createUser(username, password);
 
             }
             else {
@@ -83,28 +81,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
         } else if (id == R.id.login_text_view) {
             startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+            finish();
         }
     }
 
     private void createUser(String username,String password){
 
-        mAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful())
-                {
-                    navigateToLoginActivity();
-                }
-                else {
-                    Log.d("SignUpActivity", "onComplete: creating user task failed : "+ Objects.requireNonNull(task.getException()).getMessage());
-                }
+        mAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(task -> {
+            if (task.isSuccessful())
+            {
+                navigateToLoginActivity();
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("SignUpActivity", "onFail : user creation failed : "+ e.getMessage());
+            else {
+                Log.d("SignUpActivity", "onComplete: creating user task failed : "+ Objects.requireNonNull(task.getException()).getMessage());
             }
-        });
+        }).addOnFailureListener(e -> Log.d("SignUpActivity", "onFail : user creation failed : "+ e.getMessage()));
 
     }
 
@@ -131,5 +122,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void navigateToLoginActivity(){
         startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+        finish();
     }
 }

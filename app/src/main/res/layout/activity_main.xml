@@ -37,6 +37,7 @@
 
 
             <TextView
+                android:id="@+id/greetings_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/subjects_layout"
@@ -81,6 +82,8 @@
         android:layout_marginTop="100dp"
         android:overScrollMode="never"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,18 +134,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/itim"
                     android:text="@string/slogan" />
 
-
-                <com.google.android.material.button.MaterialButton
+                <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/profile_button"
                     android:layout_width="30dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="25dp"
-                    app:cornerRadius="20dp" />
+                    app:riv_corner_radius="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@color/image_filter"/>
 
             </RelativeLayout>
 
@@ -238,7 +242,9 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:src="@drawable/backdrop"
-        android:layout_gravity="bottom"/>
+        android:scaleType="fitXY"
+        android:layout_gravity="bottom"
+        android:contentDescription="@string/fadinBar_description"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/whisper_button"
@@ -251,6 +257,7 @@
         android:foreground="@drawable/addition"
         android:foregroundTint="@color/orange_700"
         app:rippleColor="@color/orange_ripple"
-        app:borderWidth="0dp"/>
+        app:borderWidth="0dp"
+        android:contentDescription="@string/fab_description" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

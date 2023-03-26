@@ -164,12 +164,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                studentNumberEditText.setText(Objects.requireNonNull(snapshot.child("Student Number").getValue()).toString());
-                collegeEditText.setText(Objects.requireNonNull(snapshot.child("College").getValue()).toString());
-                displayNameEditText.setText(currentUser.getDisplayName());
-                emailEditText.setText(currentUser.getEmail());
+
+
+
 
                 try {
+
+                    // student number is null when user signs up. So, it returns null
+                    studentNumberEditText.setText(Objects.requireNonNull(snapshot.child("Student Number").getValue()).toString());
+                    collegeEditText.setText(Objects.requireNonNull(snapshot.child("College").getValue()).toString());
+                    displayNameEditText.setText(currentUser.getDisplayName());
+                    emailEditText.setText(currentUser.getEmail());
+
+
                     whisperedNumberView.setText(Objects.requireNonNull(snapshot.child("WhisperedNumber").getValue()).toString());
                     memedNumberView.setText(Objects.requireNonNull(snapshot.child("MemedNumber").getValue()).toString());
                 }

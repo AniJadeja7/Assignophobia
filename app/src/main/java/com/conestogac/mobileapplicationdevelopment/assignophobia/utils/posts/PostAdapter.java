@@ -8,14 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.R;
 
+import java.net.ConnectException;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
 
     Context context;
     List<Item> items;
+
 
     public PostAdapter(Context context, List<Item> items) {
         this.context = context;
@@ -32,8 +35,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     public void onBindViewHolder(@NonNull PostHolder holder, int position) {
         holder.assignmentText.setText(items.get(position).getAssignmentText());
         holder.userName.setText(items.get(position).getUserName());
-        holder.assignmentImage.setImageBitmap(items.get(position).getAssignmentImage());
-        holder.profile.setImageBitmap(items.get(position).getProfile());
+
+        Glide.with(context).load(items.get(position).getAssignmentImage()).into(holder.assignmentImage);
+        Glide.with(context).load(items.get(position).getProfile()).into(holder.profile);
+
     }
 
     @Override

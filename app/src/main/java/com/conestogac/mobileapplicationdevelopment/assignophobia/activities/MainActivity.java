@@ -6,13 +6,16 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.R;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts.Item;
 import com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts.PostAdapter;
@@ -27,10 +30,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,8 +47,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference publicPosts;
+    private PostAdapter adapter;
+
+    private TextView greetingsView;
 
     private static final String TAG = "MainActivity";
+
+
+    private RoundedImageView profileButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PostAdapter(getApplicationContext(),items));
+        recyclerView.setAdapter(adapter);
         nestedScrollView.post(() -> nestedScrollView.scrollTo(0, 0));
     }
 
@@ -74,16 +87,20 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "checkUserStatus: display name is not set");
             startActivity(new Intent(MainActivity.this,ProfileActivity.class));
         }
+        if (user.getUserPhotoUri()!=null)
+        {
+            Glide.with(this).load(user.getUserPhotoUri()).into(profileButton);
+        }
+        if (user.getUserDisplayName() != null)
+        {
+            greetingsView.setText("Hello, Mr. "+user.getUserDisplayName());
+        }
     }
 
     private void fetchAssignments() {
 
     }
 
-    private void addItems(Bitmap profilePic, Bitmap assignmentImage, String username, String assignmentText){
-        Item item = new Item(profilePic,assignmentImage,username,assignmentText);
-        items.add(item);
-    }
 
 
     @Override
@@ -99,18 +116,26 @@ public class MainActivity extends AppCompatActivity {
         publicPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                items.clear();
                 Log.d(TAG, "onDataChange: "+snapshot.getChildrenCount());
 
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     // Get the data for each post
                     String postId = postSnapshot.getKey();
-                    String name = postSnapshot.child("displayName").getValue(String.class);
-                    String userPhotoUrl = postSnapshot.child("userPhotoUrl").getValue(String.class);
-                    String assignmentImageUrl = postSnapshot.child("assignmentImage").getValue(String.class);
+                    String name = postSnapshot.child("displayUserName").getValue(String.class);
+                    String userPhotoUrl = postSnapshot.child("userProfileUrlReference").getValue(String.class);
+                    String assignmentImageUrl = postSnapshot.child("assignmentImageReference").getValue(String.class);
                     String assignmentText = postSnapshot.child("assignmentText").getValue(String.class);
 
+
+
                     // Add data to the items
+                    Item item = new Item(userPhotoUrl,assignmentImageUrl,name,assignmentText);
+                        items.add(item);
+
+
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -141,14 +166,15 @@ public class MainActivity extends AppCompatActivity {
 
         whisperButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,WhisperActivity.class)));
 
-        MaterialButton profileButton = findViewById(R.id.profile_button);
-        profileButton.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this,ProfileActivity.class));
-        });
+        profileButton = findViewById(R.id.profile_button);
+        profileButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,ProfileActivity.class)));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference();
-        publicPosts = databaseReference.child("PublicPosts");
+        publicPosts = databaseReference.child("publicPosts");
 
+        adapter = new PostAdapter(getApplicationContext(),items);
+
+        greetingsView = findViewById(R.id.greetings_view);
     }
 }

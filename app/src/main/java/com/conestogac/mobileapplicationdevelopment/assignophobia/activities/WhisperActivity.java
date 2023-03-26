@@ -43,8 +43,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -80,6 +83,9 @@ public class WhisperActivity extends AppCompatActivity implements View.OnClickLi
     private FirebaseUser currentUser;
 
     private Uri assignmentImageReference;
+
+    private DatabaseReference databaseReference;
+    private int whisperedNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +108,6 @@ public class WhisperActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.post_button).setOnClickListener(this);
 
 
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         this.currentUser = currentUser;
@@ -112,7 +117,7 @@ public class WhisperActivity extends AppCompatActivity implements View.OnClickLi
         publicPostsStorageReference = storageReference.child("publicPosts");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference();
+        databaseReference = database.getReference();
         publicPostsDatabaseReference = databaseReference.child("publicPosts");
         DatabaseReference personalPostReference = databaseReference.child("users/" + Objects.requireNonNull(currentUser).getUid() + "/publicPosts");
 
@@ -141,6 +146,27 @@ public class WhisperActivity extends AppCompatActivity implements View.OnClickLi
                         dateEditText.setText(String.format("%02d/%02d/%04d", month1 +1, dayOfMonth1, year1));
                     }, year, month, dayOfMonth);
             datePickerDialog.show();
+        });
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    whisperedNumber = Integer.parseInt(Objects.requireNonNull(snapshot
+                            .child("users/"+currentUser.getUid()).child("WhisperedNumber")
+                            .getValue()).toString());
+                    Log.d(TAG, "onDataChange: current whispered posts "+whisperedNumber);
+                  }catch (Exception e)
+                {
+                    Log.d(TAG, "onDataChange: "+e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
 
     }
@@ -221,6 +247,9 @@ public class WhisperActivity extends AppCompatActivity implements View.OnClickLi
                 postData.put("userProfileUrlReference", Objects.requireNonNull(currentUser.getPhotoUrl()).toString());
 
                 newPostRef.setValue(postData);
+
+                databaseReference.child("users/"+currentUser.getUid()).child("WhisperedNumber").setValue(whisperedNumber+1);
+
 
             });
 

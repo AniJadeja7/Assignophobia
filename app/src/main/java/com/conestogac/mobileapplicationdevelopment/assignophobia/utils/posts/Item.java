@@ -1,24 +1,25 @@
 package com.conestogac.mobileapplicationdevelopment.assignophobia.utils.posts;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 public class Item {
 
-    private Bitmap profile, assignmentImage;
+    private String profile, assignmentImage;
     String userName, assignmentText;
 
-    public Item(Bitmap profile, Bitmap assignmentImage, String userName, String assignmentText) {
+    public Item(String profile, String assignmentImage, String userName, String assignmentText) {
         this.profile = profile;
         this.assignmentImage = assignmentImage;
         this.userName = userName;
         this.assignmentText = assignmentText;
     }
 
-    public Bitmap getProfile() {
+    public String getProfile() {
         return profile;
     }
 
-    public Bitmap getAssignmentImage() {
+    public String getAssignmentImage() {
         return assignmentImage;
     }
 
@@ -30,11 +31,11 @@ public class Item {
         return assignmentText;
     }
 
-    public void setProfile(Bitmap profile) {
+    public void setProfile(String profile) {
         this.profile = profile;
     }
 
-    public void setAssignmentImage(Bitmap assignmentImage) {
+    public void setAssignmentImage(String assignmentImage) {
         this.assignmentImage = assignmentImage;
     }
 
