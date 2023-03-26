@@ -31,4 +31,6 @@
     <string name="post">post</string>
     <string name="enter_date">Enter Date</string>
     <string name="invite_code">Invite Code</string>
+    <string name="fadinBar_description">bottom fading bar</string>
+    <string name="fab_description">Floating Actionbar Button for opening whisper activity.</string>
 </resources>
