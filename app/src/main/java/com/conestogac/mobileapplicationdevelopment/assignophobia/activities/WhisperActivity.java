@@ -254,37 +254,38 @@ public class WhisperActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCompletion(String generatedText) {
                 rephrasedAssignmentText[0] = generatedText;
+                Log.d(TAG2, "createPublicPost: uploading Rephrased Text : "+rephrasedAssignmentText[0]);
+                UploadTask uploadTask = publicPostsStorageReference.child(
+                                Objects.requireNonNull(imageNameEditText.getText()) + "."
+                                        + imageExtension)
+                        .putFile(assignmentImageReference);
+                uploadTask.addOnSuccessListener(taskSnapshot -> {
+
+                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                        Log.d(TAG, "createPostReference => getDownloadUrl => onSuccess: ");
+
+                        // Will create an UniqueId under "publicPosts" and will upload data under it.
+
+                        DatabaseReference newPostRef = publicPostsDatabaseReference.push();
+                        Map<String, String> postData = new HashMap<>();
+                        postData.put("assignmentImageReference", uri.toString());
+                        postData.put("assignmentText", rephrasedAssignmentText[0].trim());
+                        postData.put("displayUserName", currentUser.getDisplayName());
+                        postData.put("userProfileUrlReference", Objects.requireNonNull(currentUser.getPhotoUrl()).toString());
+
+                        newPostRef.setValue(postData);
+
+                        databaseReference.child("users/" + currentUser.getUid()).child("WhisperedNumber").setValue(whisperedNumber + 1);
+
+
+                    });
+
+                    Log.d(TAG, "createPostReference => onSuccess: Assignment Image Uploaded");
+                });
             }
         });
 
-        Log.d(TAG2, "createPublicPost: uploading Rephrased Text : "+rephrasedAssignmentText[0]);
-        UploadTask uploadTask = publicPostsStorageReference.child(
-                        Objects.requireNonNull(imageNameEditText.getText()) + "."
-                                + imageExtension)
-                .putFile(assignmentImageReference);
-        uploadTask.addOnSuccessListener(taskSnapshot -> {
 
-            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
-                Log.d(TAG, "createPostReference => getDownloadUrl => onSuccess: ");
-
-                // Will create an UniqueId under "publicPosts" and will upload data under it.
-
-                DatabaseReference newPostRef = publicPostsDatabaseReference.push();
-                Map<String, String> postData = new HashMap<>();
-                postData.put("assignmentImageReference", uri.toString());
-                postData.put("assignmentText", rephrasedAssignmentText[0].trim());
-                postData.put("displayUserName", currentUser.getDisplayName());
-                postData.put("userProfileUrlReference", Objects.requireNonNull(currentUser.getPhotoUrl()).toString());
-
-                newPostRef.setValue(postData);
-
-                databaseReference.child("users/" + currentUser.getUid()).child("WhisperedNumber").setValue(whisperedNumber + 1);
-
-
-            });
-
-            Log.d(TAG, "createPostReference => onSuccess: Assignment Image Uploaded");
-        });
 
     }
 

@@ -58,7 +58,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/itim"
-        android:text="Your Invite code is : "
+        android:text="@string/your_invite_code_is"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="60dp"/>
+        android:layout_marginBottom="60dp"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

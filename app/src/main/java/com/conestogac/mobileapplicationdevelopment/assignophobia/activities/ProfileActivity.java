@@ -1,6 +1,7 @@
 package com.conestogac.mobileapplicationdevelopment.assignophobia.activities;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,6 +75,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         retrieveDataFromFirebase();
+
+
+        profileView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                String imageUri = Objects.requireNonNull(currentUser.getPhotoUrl()).toString();
+
+
+                Intent intent = new Intent(ProfileActivity.this, FullScreenImage.class);
+                intent.putExtra("imageUri", imageUri);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     private void init() {
@@ -104,6 +120,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         whisperedNumberView = findViewById(R.id.whispered_number);
         memedNumberView = findViewById(R.id.memed_number);
+
+        findViewById(R.id.invite_button).setOnClickListener(this);
     }
 
     @Override
@@ -117,6 +135,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (id == R.id.save_button) {
             saveDataOnFirebase();
         }
+        if (id == R.id.invite_button){
+            startActivity(new Intent(ProfileActivity.this,InviteActivity.class));
+        }
+
     }
     private void saveDataOnFirebase() {
         user.setUserEmail(getData("email"));
@@ -130,9 +152,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                     user.setUserPhotoUri(uri);
                     currentUser.updateProfile(new UserProfileChangeRequest.Builder()
-                            .setPhotoUri(uri)
-                            .build()).addOnSuccessListener(unused ->
-                            Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onSuccess: photo uri set "+uri))
+                                    .setPhotoUri(uri)
+                                    .build()).addOnSuccessListener(unused ->
+                                    Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onSuccess: photo uri set "+uri))
                             .addOnFailureListener(e -> Log.d(TAG, "saveDataOnFirebase => photoUpload => setPhotoURI => onFailure: "+e.getMessage()));
                 });
             }).addOnFailureListener(e -> {

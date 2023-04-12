@@ -33,4 +33,5 @@
     <string name="invite_code">Invite Code</string>
     <string name="fadinBar_description">bottom fading bar</string>
     <string name="fab_description">Floating Actionbar Button for opening whisper activity.</string>
+    <string name="your_invite_code_is">Your Invite code is :</string>
 </resources>
